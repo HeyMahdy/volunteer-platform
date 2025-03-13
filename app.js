@@ -39,3 +39,12 @@ app.get("/", (req, res) => {
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
+
+
+
+
+
+
+import AuthRoute from './src/routes/auth-route.js'
+app.use('/api/auth',AuthRoute);
+
