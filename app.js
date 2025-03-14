@@ -1,4 +1,4 @@
-
+import AuthRoute from './src/routes/auth-route.js'
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -30,6 +30,7 @@ app.use(
 );
 
 
+app.use('/api/auth',AuthRoute);
 
 
 app.get("/", (req, res) => {
@@ -45,6 +46,6 @@ app.listen(5000, () => {
 
 
 
-import AuthRoute from './src/routes/auth-route.js'
-app.use('/api/auth',AuthRoute);
+
+
 
