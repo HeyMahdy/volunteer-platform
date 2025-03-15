@@ -42,7 +42,8 @@ app.listen(5000, () => {
 });
 
 
-
+import ProflieRoute from './src/routes/profile-route.js'
+app.use('/api/profile',ProflieRoute);
 
 
 
