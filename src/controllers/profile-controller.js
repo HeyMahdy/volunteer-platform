@@ -1,5 +1,5 @@
 import pkg from '@prisma/client';
-const {PrismaClient } = pkg;
+const {PrismaClient , Prisma } = pkg;
 
 
 const prisma = new PrismaClient()
@@ -159,11 +159,46 @@ const updateCause = async (req, res) => {
 
 
 
-const getProfileById = async(req,res) => {
+const getProfileById = async (req, res) => {
+    try {
+        const id = req.userInfo.userId;
+
+        let CCCprofile; // Define the variable outside the try block
+
+        try {
+            CCCprofile = await prisma.profile.findUnique({
+                where: {
+                    userId: id
+                },
+                include: {
+                    skills: true,
+                    causes: true
+                    
+                }
+            });
+        } catch (e) {
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                console.error(e.code);
+                return res.status(500).json({ message: "Server Error" });
+            }
+            console.error(e);
+            return res.status(500).json({ message: "Server Error" });
+        }
+
+        if (!CCCprofile) {
+            return res.status(404).json({ message: "Profile not found" });
+        } else {
+            return res.status(200).json({ message: "Profile found", profile: CCCprofile });
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Error" });
+    }
+};
 
 
 
-}
 
 
 
@@ -178,8 +213,4 @@ const getProfileById = async(req,res) => {
 
 
 
-
-
-
-
-export { createProfile, updateProfile, createSkill, updateSkill, createCause, updateCause };
+export { createProfile, updateProfile, createSkill, updateSkill, createCause, updateCause ,getProfileById};
