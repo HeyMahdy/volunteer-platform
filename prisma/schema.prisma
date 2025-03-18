@@ -21,37 +21,90 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  profile   Profile? // Relation to Profile (One-to-One)
+  profile   Profile? // One-to-One with Profile
 }
 
 model Profile {
   id        Int      @id @default(autoincrement())
-  fullname String
+  fullname  String
   bio       String?
-  skills    skill[]
-  causes    cause[]
   userId    Int      @unique
   user      User     @relation(fields: [userId], references: [id])
+  skills    Skill[]
+  causes    Cause[]
+  events    Event[]
+  history   VolunteerHistory?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model skill {
+model Skill {
   id        Int      @id @default(autoincrement())
   name      String
   level     String
-  profileId Int       @unique
+  profileId Int      @unique
   profile   Profile  @relation(fields: [profileId], references: [id])
-  
-  
 }
 
-model cause {
-  id        Int      @id @default(autoincrement())
-  name      String
-  description     String
-  profileId Int       @unique
-  profile   Profile  @relation(fields: [profileId], references: [id])
-  
-  
+model Cause {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  profileId   Int      @unique
+  profile     Profile  @relation(fields: [profileId], references: [id])
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  profileId   Int      @unique
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  date        DateTime
+  Category    String
+  Availability Int
+  location    String
+  status      EventStatus @default(OPEN)
+  volunteerRequests VolunteerRequest[]
+  comments    Comments[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model VolunteerRequest {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  EventId     Int
+  event       Event     @relation(fields: [EventId], references: [id])
+  time_left   DateTime
+  urgency     Urgency   @default(HIGH) // Enum for urgency levels
+}
+
+model Comments {
+  id          Int      @id @default(autoincrement())
+  EventId     Int
+  event       Event     @relation(fields: [EventId], references: [id])
+  description String
+}
+
+model VolunteerHistory {
+  id         Int      @id @default(autoincrement())
+  profileId  Int      @unique
+  profile    Profile  @relation(fields: [profileId], references: [id])
+  event_name String
+  event_date DateTime
+}
+
+enum EventStatus {
+  OPEN
+  CLOSED
+  SOLD_OUT
+  CANCELED
+}
+
+enum Urgency {
+  HIGH
+  MEDIUM
+  LOW
 }
