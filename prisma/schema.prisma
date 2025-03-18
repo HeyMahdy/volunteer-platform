@@ -67,6 +67,8 @@ model Event {
   status      EventStatus @default(OPEN)
   volunteerRequests VolunteerRequest[]
   comments    Comments[]
+  volunteerLIst VolunteerLIst[]
+  volunterCount VolunterCount?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -74,7 +76,6 @@ model Event {
 model VolunteerRequest {
   id          Int      @id @default(autoincrement())
   title       String
-  description String
   EventId     Int
   event       Event     @relation(fields: [EventId], references: [id])
   time_left   DateTime
@@ -107,4 +108,18 @@ enum Urgency {
   HIGH
   MEDIUM
   LOW
+}
+
+model VolunteerLIst {
+  id          Int      @id @default(autoincrement())
+  EventId     Int
+  event       Event     @relation(fields: [EventId], references: [id])
+  name        String
+}
+
+model VolunterCount{
+  id          Int      @id @default(autoincrement())
+  EventId     Int       @unique
+  event       Event     @relation(fields: [EventId], references: [id])
+  count      Int
 }
