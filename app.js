@@ -46,7 +46,8 @@ import ProflieRoute from './src/routes/profile-route.js'
 app.use('/api/profile',ProflieRoute);
 
 
-
+import EventRoute from './src/routes/event-routes.js'
+app.use('/api/event',EventRoute);
 
 
 
