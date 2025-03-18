@@ -21,16 +21,7 @@ const createEvent = async (req, res) => {
                     date: date,
                     location: location,
                     Availability: Availability,
-                    Category : Category,
-                    volunterCount : {
-                        create : {
-                            count : 0
-                        }
-                    }
-
-                },
-                include: {
-                    volunterCount: true
+                    Category : Category
                 }
             });
         
