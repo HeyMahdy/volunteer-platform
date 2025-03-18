@@ -50,4 +50,5 @@ import EventRoute from './src/routes/event-routes.js'
 app.use('/api/event',EventRoute);
 
 
-
+import RequestRoute from './src/routes/request-routes.js'
+app.use('/api/request',RequestRoute);
