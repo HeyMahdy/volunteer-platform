@@ -52,3 +52,7 @@ app.use('/api/event',EventRoute);
 
 import RequestRoute from './src/routes/request-routes.js'
 app.use('/api/request',RequestRoute);
+
+
+import EventFeedRoute from './src/routes/eventFeed-routes.js';
+app.use('/api/eventFeed', EventFeedRoute);
